@@ -9,12 +9,9 @@ This code simulates different drafting scenarios in a card game and compares the
 
 ## Usage
 
-1. Install the required dependencies by running the following command:
-
-2. Run the script using the following command:
+1. Run the script using the following command:
 
 ``python draft_simulator.py``
-
 
 ## Description
 

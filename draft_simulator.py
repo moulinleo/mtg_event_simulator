@@ -1,232 +1,40 @@
 import random
-
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-
-
-winrate = 0.5
-
+# Rewards for each number of wins
 rewards = {
     'gold':[0,0,0,0,0,0],
     'gems':[50,100,150,600,800,1000],
 }
-
-def generate_result(winrate=winrate):
-    if random.random() < winrate:
-        return 1
-    else:
-        return 0
-
-
-nb_exps = 10000
-
-def run(nb_exps, winrate=winrate, rewards = rewards):
-    gain_gem_tot = 0 
-    list_nb_wins = []
-    list_gain_gems = []
-    list_avg_gems = []
-    nb_games = 5
-    for exp in range(1,nb_exps):
-        nb_wins = 0
-        for game in range(nb_games):
-            nb_wins = nb_wins + generate_result(winrate=winrate)
-        gain_gem = rewards['gems'][nb_wins]
-        
-        list_gain_gems.append(gain_gem)
-        list_nb_wins.append(nb_wins)
-        gain_gem_tot = gain_gem_tot + gain_gem
-        avg_gem = gain_gem_tot/exp
-        list_avg_gems.append(avg_gem)
-    return list_gain_gems, list_nb_wins, list_avg_gems, avg_gem
-
-
 
 rewards_std = {
     'gold':[0,0,0,0,0,0],
     'gems':[25,50,75,200,300,400,450, 500],
 }
 
-def run_std_event(nb_exps, winrate=winrate, rewards=rewards_std):
-    gain_gem_tot = 0 
-    list_nb_wins = []
-    list_gain_gems = []
-    list_avg_gems = []
-    for exp in range(1,nb_exps):
-        nb_wins = 0
-        nb_loses = 0
-        for game in range(1000):
-            win = generate_result(winrate=winrate)
-            if win == 0:
-                nb_loses = nb_loses + 1
-            nb_wins = nb_wins + win
-            if (nb_wins == 7) or (nb_loses == 3):
-                gain_gem = rewards['gems'][nb_wins]
-                break
-        
-        list_gain_gems.append(gain_gem)
-        list_nb_wins.append(nb_wins)
-        gain_gem_tot = gain_gem_tot + gain_gem
-        avg_gem = gain_gem_tot/exp
-        list_avg_gems.append(avg_gem)
-    return list_gain_gems, list_nb_wins, list_avg_gems, avg_gem
-
-
-
+rewards_quick = {
+    'gold':[0,0,0,0,0,0],
+    'gems':[50,100,200,300,450,650,850,950],
+}
 
 rewards_trad_draft = {
     'gold':[0,0,0,0,0,0],
     'gems':[100,250,1000,2500],
 }
 
-def run_trad_draft(nb_exps, winrate=winrate, rewards=rewards_trad_draft):
-    gain_gem_tot = 0 
-    list_nb_wins = []
-    list_gain_gems = []
-    list_avg_gems = []
-    for exp in range(1,nb_exps):
-        nb_wins = 0
-        nb_games = 3
-        for game in range(nb_games):
-            nb_wins = nb_wins + generate_result(winrate=winrate)
-        gain_gem = rewards['gems'][nb_wins]
-        
-        list_gain_gems.append(gain_gem)
-        list_nb_wins.append(nb_wins)
-        gain_gem_tot = gain_gem_tot + gain_gem
-        avg_gem = gain_gem_tot/exp
-        list_avg_gems.append(avg_gem)
-    return list_gain_gems, list_nb_wins, list_avg_gems, avg_gem
-
-ratio_gold_gem_quick = 0 
-ratio_gold_gem_prem = 0
-
-rewards_quick = {
-    'gold':[0,0,0,0,0,0],
-    'gems':[50,100,200,300,450,650,850,950],
-}
-
-def run_quick_draft(nb_exps, winrate=winrate, rewards=rewards_quick):
-    gain_gem_tot = 0 
-    list_nb_wins = []
-    list_gain_gems = []
-    list_avg_gems = []
-    for exp in range(1,nb_exps):
-        nb_wins = 0
-        nb_loses = 0
-        for game in range(1000):
-            win = generate_result(winrate=winrate)
-            if win == 0:
-                nb_loses = nb_loses + 1
-            nb_wins = nb_wins + win
-            if (nb_wins == 7) or (nb_loses == 3):
-                gain_gem = rewards['gems'][nb_wins]
-                break
-        
-        list_gain_gems.append(gain_gem)
-        list_nb_wins.append(nb_wins)
-        gain_gem_tot = gain_gem_tot + gain_gem
-        avg_gem = gain_gem_tot/exp
-        list_avg_gems.append(avg_gem)
-    return list_gain_gems, list_nb_wins, list_avg_gems, avg_gem
-
-
 rewards_prem = {
     'gold':[0,0,0,0,0,0],
     'gems':[50,100,250,1000,1400,1600,1800,2200],
 }
 
-def run_prem_draft(nb_exps, winrate=winrate, rewards=rewards_prem):
-    gain_gem_tot = 0 
-    list_nb_wins = []
-    list_gain_gems = []
-    list_avg_gems = []
-    for exp in range(1,nb_exps):
-        nb_wins = 0
-        nb_loses = 0
-        for game in range(1000):
-            win = generate_result(winrate=winrate)
-            if win == 0:
-                nb_loses = nb_loses + 1
-            nb_wins = nb_wins + win
-            if (nb_wins == 7) or (nb_loses == 3):
-                gain_gem = rewards['gems'][nb_wins]
-                break
-        
-        list_gain_gems.append(gain_gem)
-        list_nb_wins.append(nb_wins)
-        gain_gem_tot = gain_gem_tot + gain_gem
-        avg_gem = gain_gem_tot/exp
-        list_avg_gems.append(avg_gem)
-    return list_gain_gems, list_nb_wins, list_avg_gems, avg_gem
-
-
-
-
-
-
-nb_exps = 100
-
-if 0:
-
-    fig, axes = plt.subplots(nrows=3, ncols=2)
-    axes[0, 0].axhline(y=750, label='ENTRY COST', linestyle='--')
-    axes[0, 1].axhline(y=375, label='ENTRY COST', linestyle='--')
-    axes[1, 0].axhline(y=750, label='ENTRY COST', linestyle='--')
-    axes[1, 1].axhline(y=1500, label='ENTRY COST', linestyle='--')
-    axes[2, 0].axhline(y=1500, label='ENTRY COST', linestyle='--')
-
-    for winrate in [0.5, 0.6, 0.7, 0.8]:
-        list_gain_gems, list_nb_wins, list_avg_gems, avg_gem = run(nb_exps, winrate=winrate)
-        axes[0, 0].set_ylabel('Gems gained')
-        axes[0, 0].set_xlabel('Number of drafts')
-        axes[0, 0].plot(list_avg_gems, label = f'winrate = {winrate}')
-        axes[0, 0].set_title('trad_std_event')
-        axes[0, 0].legend(fontsize='small')
-        
-        # SECOND    
-        list_gain_gems, list_nb_wins, list_avg_gems, avg_gem = run_std_event(nb_exps, winrate=winrate)
-        axes[0, 1].set_ylabel('Gems gained')
-        axes[0, 1].set_xlabel('Number of drafts')
-        axes[0, 1].plot(list_avg_gems, label = f'winrate = {winrate}')
-        axes[0, 1].set_title('std_event')
-        axes[0, 1].legend(fontsize='small')
-        
-        # TRAD DRAFT
-        list_gain_gems, list_nb_wins, list_avg_gems, avg_gem = run_trad_draft(nb_exps, winrate=winrate)
-        axes[1, 1].set_ylabel('Gems gained')
-        axes[1, 1].set_xlabel('Number of drafts')
-        axes[1, 1].plot(list_avg_gems, label = f'winrate = {winrate}')
-        axes[1, 1].set_title('trad_draft')
-        axes[1, 1].legend(fontsize='small')
-        
-        # QUICK DRAFT
-        list_gain_gems, list_nb_wins, list_avg_gems, avg_gem = run_quick_draft(nb_exps, winrate=winrate)
-        axes[1, 0].set_ylabel('Gems gained')
-        axes[1, 0].set_xlabel('Number of drafts')
-        axes[1, 0].plot(list_avg_gems, label = f'winrate = {winrate}')
-        axes[1, 0].set_title('quick_draft')
-        axes[1, 0].legend(fontsize='small')
-        
-        # PREMIER DRAFT
-        list_gain_gems, list_nb_wins, list_avg_gems, avg_gem = run_prem_draft(nb_exps, winrate=winrate)
-        axes[2, 0].set_ylabel('Gems gained')
-        axes[2, 0].set_xlabel('Number of drafts')
-        axes[2, 0].plot(list_avg_gems, label = f'winrate = {winrate}')
-        axes[2, 0].set_title('prem_draft')
-        axes[2, 0].legend(fontsize='small')
-        
+def generate_result(winrate):
+    # Outputs 1 if the match is one, 0 if lost
+    if random.random() < winrate:
+        return 1
+    else:
+        return 0
     
-
-    plt.tight_layout()
-
-    plt.show()
-
-
-
-
-
 class DraftSimulator:
     def __init__(self, rewards, entry_cost, bo, nb_games, until_3_lose) -> None:
         self.rewards = rewards
@@ -241,7 +49,7 @@ class DraftSimulator:
         else:
             return self.run_matches(nb_exps,  winrate)
         
-    def run_matches(self, nb_exps,  winrate):
+    def run_matches(self, nb_exps, winrate):
         gain_gem_tot = 0
         list_nb_wins = []
         list_gain_gems = []
@@ -252,9 +60,9 @@ class DraftSimulator:
             
             for game in range(self.nb_games):
                 if self.bo == 'bo1':
-                    win = self.generate_result(winrate=winrate)
+                    win = self.generate_result(winrate)
                 elif self.bo == 'bo3':
-                    win = self.generate_result_bo3(winrate=winrate)
+                    win = self.generate_result_bo3(winrate)
                 else:
                     raise('Error')
                 
@@ -267,7 +75,7 @@ class DraftSimulator:
             avg_gem = gain_gem_tot / exp
             list_avg_gems.append(avg_gem)
         
-        return avg_gem
+        return avg_gem, list_avg_gems
     
     def run_until_3_loses(self, nb_exps, winrate):
         gain_gem_tot = 0 
@@ -279,9 +87,9 @@ class DraftSimulator:
             nb_loses = 0
             for game in range(1000):
                 if self.bo == 'bo1':
-                    win = self.generate_result(winrate=winrate)
+                    win = self.generate_result(winrate)
                 elif self.bo == 'bo3':
-                    win = self.generate_result_bo3(winrate=winrate)
+                    win = self.generate_result_bo3(winrate)
                 else:
                     raise('Error')
                     
@@ -298,9 +106,12 @@ class DraftSimulator:
             avg_gem = gain_gem_tot/exp
             list_avg_gems.append(avg_gem)
             
-        return avg_gem
+        return avg_gem, list_avg_gems
             
-    def generate_result_bo3(self, winrate=winrate):
+            
+    def generate_result_bo3(self, winrate):
+        # Result of the BO3 match. Outputs 0, 1, 2, 3 for 0, 1, 2, 3 wins respectively.
+        # Outputs 1 if the match is won (2 or 3 wins), 0 otherwise
         match1 = int(random.random() < winrate)
         match2 = int(random.random() < winrate)
         match3 = int(random.random() < winrate)
@@ -309,28 +120,36 @@ class DraftSimulator:
         else:
             return 0
         
-    def generate_result(self, winrate=winrate):
+    def generate_result(self, winrate):
+        # Outputs 1 if the match is one, 0 if lost
         if random.random() < winrate:
             return 1
         else:
-            return 0
-        
-    
-    
-StandardEvent = DraftSimulator(rewards=rewards_std, entry_cost=375, bo='bo1', nb_games=100, until_3_lose=True)
-QuickDraft = DraftSimulator(rewards=rewards_quick, entry_cost=750, bo='bo1', nb_games=100, until_3_lose=True)
-TradDraft = DraftSimulator(rewards=rewards_trad_draft, entry_cost=1500, bo='bo3', nb_games=3, until_3_lose=False)
-TradEvent = DraftSimulator(rewards=rewards, entry_cost=750, bo='bo3', nb_games=5, until_3_lose=False)
-PremiumDraft = DraftSimulator(rewards=rewards_prem, entry_cost=1500, bo='bo1', nb_games=100, until_3_lose=True)
+            return 0            
+            
 
-# ALL
-nb_exps = 15000
-list_events = [TradEvent, StandardEvent, QuickDraft, TradDraft, PremiumDraft]
-list_names = ['TradEvent','StandardEvent', 'QuickDraft', 'TradDraft', 'PremiumDraft']
+def show_avg_gem_over_drafts(nb_exps, list_events, list_names):
+    
+    fig, axes = plt.subplots(nrows=3, ncols=2)
+    axes = axes.ravel()
+    
+    for jj,event in enumerate(list_events):
+        
+        axes[jj].axhline(y=event.entry_cost, label='ENTRY COST', linestyle='--')
+
+        for winrate in [0.5, 0.6, 0.7, 0.8]:
+            avg_gem, list_avg_gems = event.run(nb_exps, winrate)
+            axes[jj].set_ylabel('Gems gained')
+            axes[jj].set_xlabel('Number of drafts')
+            axes[jj].plot(list_avg_gems, label = f'winrate = {winrate}')
+            axes[jj].set_title(list_names[jj])
+    plt.tight_layout()
+
+    plt.show()
+
 
 
 def plot_winrate_avggaingem(nb_exps, list_events, list_names):
-    
 
     plt.figure()
     winrates = np.linspace(0.4,0.8,2000)
@@ -338,7 +157,7 @@ def plot_winrate_avggaingem(nb_exps, list_events, list_names):
         list_ratios = []
         ff = False
         for winrate_jj in winrates:
-            avg_gem = event.run(nb_exps, winrate_jj)
+            avg_gem, list_avg_gems = event.run(nb_exps, winrate_jj)
             ratio = avg_gem/event.entry_cost
             list_ratios.append(ratio)
             if (winrate_jj > 0.5) and ff == False:
@@ -353,5 +172,21 @@ def plot_winrate_avggaingem(nb_exps, list_events, list_names):
     plt.show()
     
 
+# CREATE HERE EVENTS
+StandardEvent = DraftSimulator(rewards=rewards_std, entry_cost=375, bo='bo1', nb_games=100, until_3_lose=True)
+QuickDraft = DraftSimulator(rewards=rewards_quick, entry_cost=750, bo='bo1', nb_games=100, until_3_lose=True)
+TradDraft = DraftSimulator(rewards=rewards_trad_draft, entry_cost=1500, bo='bo3', nb_games=3, until_3_lose=False)
+TradEvent = DraftSimulator(rewards=rewards, entry_cost=750, bo='bo3', nb_games=5, until_3_lose=False)
+PremiumDraft = DraftSimulator(rewards=rewards_prem, entry_cost=1500, bo='bo1', nb_games=100, until_3_lose=True)
 
+# Number of simulated drafts
+nb_exps = 3000 
+
+list_events = [TradEvent, StandardEvent, QuickDraft, TradDraft, PremiumDraft]
+list_names = ['TradEvent','StandardEvent', 'QuickDraft', 'TradDraft', 'PremiumDraft']
+
+## ACTUAL PLOTTING 
+# Show the subplots with the average gem over the number of drafts
+show_avg_gem_over_drafts(nb_exps, list_events, list_names)
+# Show the AvgGemGainCost vs Winrate graph
 plot_winrate_avggaingem(nb_exps, list_events, list_names)
